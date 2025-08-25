@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Orientation And Youth</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ----------------- Cover Page Slideshow ----------------- */
+  .page { display: none; min-height: 100vh; position: relative; justify-content: center; align-items: center; }
+  .active-page { display: flex; }
+
+  .slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; overflow: hidden; }
+  .slide { position: absolute; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s ease-in-out; }
+  .slide.active { opacity: 1; }
+
+  body::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: -1; }
+
+  .arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 50px; color: rgba(255,255,255,0.8); cursor: pointer; z-index: 3; transition: color 0.3s; }
+  .arrow:hover { color: #ff6a00; }
+  .arrow.left { left: 20px; }
+  .arrow.right { right: 20px; }
+
+  .dots { position: absolute; bottom: 25px; width: 100%; text-align: center; z-index: 3; }
+  .dot { display: inline-block; width: 15px; height: 15px; margin: 0 8px; background: rgba(255,255,255,0.6); border-radius: 50%; cursor: pointer; transition: background 0.3s; }
+  .dot.active { background: #ff6a00; }
+
+  .text-container { position: relative; z-index: 2; padding: 50px 70px; background: rgba(255,255,255,0.9); border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.3); text-align: center; max-width: 90%; }
+  h1 { font-size: 60px; font-weight: bold; background: linear-gradient(90deg, #ff6a00, #ee0979, #06beb6, #48c6ef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); margin-bottom: 20px; }
+  p.subtitle { font-size: 22px; margin-bottom: 40px; background: linear-gradient(90deg, #f7971e, #ffd200, #00c6ff, #0072ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 600; text-shadow: 1px 1px 5px rgba(0,0,0,0.2); }
+
+  .start-btn { padding: 18px 50px; font-size: 24px; font-weight: bold; color: white; background: linear-gradient(135deg, #6a11cb, #2575fc, #ff6a00); border: none; border-radius: 50px; cursor: pointer; text-decoration: none; box-shadow: 0 8px 25px rgba(0,0,0,0.4); transition: transform 0.3s, box-shadow 0.3s; }
+  .start-btn:hover { transform: scale(1.05); box-shadow: 0 12px 30px rgba(0,0,0,0.5); background: linear-gradient(135deg, #ff6a00, #2575fc, #6a11cb); }
+
+  .projected-box { position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.95); padding: 15px 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 3; }
+  .projected-box span { font-size: 26px; font-weight: bold; background: linear-gradient(270deg, #ff6a00, #ee0979, #06beb6, #48c6ef, #ff6a00); background-size: 400% 400%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientAnimation 8s ease infinite; }
+
+  @keyframes gradientAnimation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+  /* ----------------- Common Styles for Pages ----------------- */
+  .container { position: relative; z-index: 2; padding: 50px; max-width: 1000px; margin: 60px auto; border-radius: 20px; background: rgba(255,255,255,0.9); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+  .blob { display: none; } /* Hide floating blobs if not needed */
+
+  h2, h3, h4 { margin: 15px 0; }
+  h2 { font-size: 36px; font-weight: bold; background: linear-gradient(90deg, #f7971e, #ffd200, #00c6ff, #0072ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  h3 { font-size: 28px; font-weight: 600; background: linear-gradient(90deg, #ff6a00, #ee0979, #06beb6, #48c6ef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  h4 { font-size: 22px; font-weight: 600; }
+  p, li { font-size: 18px; line-height: 1.7; }
+  ul { margin-left: 30px; text-align: left; }
+
+  .form-section { margin: 30px auto; padding: 30px; background: rgba(255,255,255,0.95); border-radius: 20px; }
+  label { font-size: 18px; display: block; margin-top: 15px; margin-bottom: 6px; text-align: left; }
+  input, select { width: 95%; padding: 14px; border-radius: 10px; border: 1px solid #ccc; margin-bottom: 15px; font-size: 16px; }
+  button, .next-btn { padding: 15px 35px; font-size: 18px; font-weight: bold; background: linear-gradient(135deg, #6a11cb, #2575fc, #ff6a00); color: white; border: none; border-radius: 30px; cursor: pointer; transition: 0.3s; margin-top: 20px; }
+  button:hover, .next-btn:hover { transform: scale(1.05); background: linear-gradient(135deg, #ff6a00, #2575fc, #6a11cb); }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ----------------- Page Background Images ----------------- */
+  #page1 { background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat; }
+  #page2 { background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat; }
+  #page3 { background: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat; }
+  #page4 { background: url('https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat; }
+  #page5 { background: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat; }
+  #page6 { background: url('https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat; }
+</style>
+</head>
+<body>
+
+<!-- Page 1: Cover -->
+<div id="page1" class="page active-page">
+  <div class="text-container">
+    <h1>Career Orientation And Youth</h1>
+    <p class="subtitle">Explore opportunities, skills, and guidance for a brighter youth career journey</p>
+    <button onclick="showPage('page2')">★ Start</button>
+  </div>
+  <div class="projected-box">
+    <span>Projected by Sana Rajbakshad Mulani</span>
+  </div>
+</div>
+
+<!-- Page 2: Introduction -->
+<div id="page2" class="page">
+  <div class="container">
+    <h1>S. B. Patil College of Engineering</h1>
+    <h2>Presented By:</h2>
+    <h3>SANA MULANI, GAURI MORE, SADIYA MULANI</h3>
+    <h2>Department:</h2>
+    <h3>SE Computer Engineering</h3>
+    <button class="next-btn" onclick="showPage('page3')">Next ➤</button>
+  </div>
+</div>
+
+<!-- Page 3: Career Planning -->
+<div id="page3" class="page">
+  <div class="container">
+    <h1>📌 Career Planning – Key Points</h1>
+    <h3>1. Self-Assessment</h3>
+    <ul>
+      <li>Identify your interests, strengths, weaknesses, and personality.</li>
+      <li>Use aptitude/interest tests for guidance.</li>
+    </ul>
+    <h3>2. Explore Options</h3>
+    <ul>
+      <li>Research different streams, entrance exams, job roles, and future demand.</li>
+      <li>Talk to mentors, teachers, and professionals.</li>
+    </ul>
+    <h3>3. Set Goals</h3>
+    <ul>
+      <li><b>Short-term:</b> Board exams, entrance preparation.</li>
+      <li><b>Long-term:</b> Decide career/job role you wish to pursue.</li>
+    </ul>
+    <h3>4. Create a Roadmap</h3>
+    <ul>
+      <li>Choose the right subjects & entrance exams.</li>
+      <li>Plan higher studies, professional courses, or vocational training.</li>
+    </ul>
+    <h3>5. Skill Development</h3>
+    <ul>
+      <li>Learn coding, designing, communication, public speaking.</li>
+      <li>Join internships, workshops, volunteering programs.</li>
+    </ul>
+    <h3>6. Stay Flexible</h3>
+    <ul>
+      <li>Careers evolve with technology and economy.</li>
+      <li>Be open to new opportunities and changes.</li>
+    </ul>
+    <h3>7. Seek Guidance</h3>
+    <ul>
+      <li>Take help from parents, teachers, career counselors.</li>
+      <li>Use guidance platforms, seminars, mentorship programs.</li>
+    </ul>
+    <button class="next-btn" onclick="showPage('page4')">Next ➤</button>
+  </div>
+</div>
+
+<!-- Page 4: Registration -->
+<div id="page4" class="page">
+  <div class="container">
+    <h1>Introduction & Registration</h1>
+    <div class="form-section">
+      <form id="regForm">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" required>
+        <label for="class">Class:</label>
+        <input type="text" id="class" required>
+        <label for="stream">Select Stream:</label>
+        <select id="stream" required>
+          <option value="">-- Select --</option>
+          <option value="science">Science</option>
+          <option value="arts">Arts</option>
+          <option value="commerce">Commerce</option>
+          <option value="vocational">Vocational</option>
+          <option value="instructor">Instructor</option>
+        </select>
+        <button type="submit">Register</button>
+      </form>
+    </div>
+    <div id="streamSection" class="section">
+      <div id="streamInfo" class="info-box"></div>
+      <button onclick="showPage('page5')">Go to Entrance Exams</button>
+    </div>
+  </div>
+</div>
+
+<!-- Page 5: Entrance Exams -->
+<div id="page5" class="page">
+  <div class="container">
+    <h1>🎓 Entrance Exams in India (After 10th)</h1>
+    <div id="examContent" class="info-box"></div>
+    <button onclick="loadAllExams()">📖 Show All Entrance Exams</button>
+    <button onclick="showPage('page6')">Next ➤</button>
+  </div>
+</div>
+
+<!-- Page 6: Thank You -->
+<div id="page6" class="page">
+  <div class="container" style="padding: 100px 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 80vh;">
+    <h1 style="text-align: center;"><i class="fas fa-heart"></i> Thank You! From Sana, Gauri, Sadiya</h1>
+    <h3 style="text-align: center;"><i class="fas fa-star"></i> Keep Learning, Keep Growing, and Follow Your DREAMS</h3>
+    <p style="text-align: center;">We hope you found the guidance helpful. Wishing you a bright future ahead!</p>
+    <p style="text-align: center;"><i class="fas fa-smile-beam"></i> Stay motivated and inspired every day!</p>
+  </div>
+  <div class="projected-box">
+    <span>Projected by Sana Rajbakshad Mulani</span>
+  </div>
+</div>
+
+<script>
+  // Page Navigation
+  function showPage(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active-page'));
+    document.getElementById(id).classList.add('active-page');
+  }
+
+  // Registration & Stream Info
+  const form = document.getElementById("regForm");
+  const streamInfo = document.getElementById("streamInfo");
+  const examContent = document.getElementById("examContent");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const cls = document.getElementById("class").value;
+    const selectedStream = document.getElementById("stream").value;
+
+    let info = `<h2>Welcome, ${name} (${cls})</h2>`;
+
+    if(selectedStream === "science") {
+      info += `<h3>Science Stream</h3>
+      <p>This stream is ideal for students interested in Mathematics, Physics, Chemistry, and Biology.</p>
+      <h4>Career Paths:</h4>
+      <ul>
+        <li>Engineering → JEE Main & Advanced, BITSAT, VITEEE, SRMJEEE</li>
+        <li>Medical → NEET, AIIMS, JIPMER</li>
+        <li>Research & Pure Sciences → NEST, KVPY</li>
+        <li>Defence → NDA, Air Force, Navy, Army</li>
+        <li>IT & Technology Careers</li>
+      </ul>`;
+    } 
+    else if(selectedStream === "arts") {
+      info += `<h3>Arts Stream</h3>
+      <p>Suitable for creative and analytical minds.</p>
+      <h4>Career Paths:</h4>
+      <ul>
+        <li>Law → CLAT, NLUs</li>
+        <li>Design & Fashion → NIFT, NID</li>
+        <li>Social Sciences → Psychology, Sociology, Political Science</li>
+        <li>Mass Communication & Journalism</li>
+        <li>Film & Performing Arts → FTII, SRFTI</li>
+      </ul>`;
+    } 
+    else if(selectedStream === "commerce") {
+      info += `<h3>Commerce Stream</h3>
+      <p>Focused on finance, business, and management.</p>
+      <h4>Career Paths:</h4>
+      <ul>
+        <li>Chartered Accountant (CA)</li>
+        <li>Cost Management Accountant (CMA)</li>
+        <li>Company Secretary (CS)</li>
+        <li>BBA / MBA → IPMAT, NPAT</li>
+        <li>Finance, Economics, Banking</li>
+      </ul>`;
+    } 
+    else if(selectedStream === "vocational") {
+      info += `<h3>Vocational Courses</h3>
+      <p>Hands-on professional courses designed for practical skills.</p>
+      <h4>Career Paths:</h4>
+      <ul>
+        <li>Diploma Engineering (Polytechnic)</li>
+        <li>ITI Courses</li>
+        <li>Healthcare → Nursing, Paramedical</li>
+        <li>Hospitality → Hotel Management (NCHMCT)</li>
+        <li>Creative Fields → Animation, Fashion, Multimedia</li>
+      </ul>`;
+    } 
+    else if(selectedStream === "instructor") {
+      info += `<h3>Instructor / Teaching</h3>
+      <p>Guiding others academically or skill-wise.</p>
+      <h4>Career Paths:</h4>
+      <ul>
+        <li>Teaching → B.Ed, CTET, TET</li>
+        <li>Assistant Professor / UGC NET / JRF</li>
+        <li>Civil Services → UPSC / State PSC</li>
+      </ul>`;
+    }
+
+    streamInfo.innerHTML = info;
+    document.getElementById("streamSection").classList.add("active");
+  });
+
+  function loadAllExams() {
+    examContent.innerHTML = `
+      <h2>🔬 Science Stream</h2>
+      <ul>
+        <li>JEE Main & Advanced → Engineering</li>
+        <li>NEET → Medical</li>
+        <li>AIIMS & JIPMER → Medical</li>
+        <li>BITSAT → Engineering</li>
+        <li>VITEEE / SRMJEEE / KIITEE → Engineering</li>
+        <li>NDA → Defence</li>
+        <li>NEST / KVPY → Research & Pure Science</li>
+      </ul>
+      <h2>🎨 Arts & Humanities Stream</h2>
+      <ul>
+        <li>DUET / CUET (UG)</li>
+        <li>JNU Entrance Exam → UG/PG Programs</li>
+        <li>TISS BAT → Social Sciences</li>
+        <li>NIFT / NID → Fashion & Design</li>
+        <li>CLAT → Law</li>
+        <li>IIM IPM → 5-Year Integrated MBA</li>
+        <li>FTII / SRFTI → Film & Performing Arts</li>
+      </ul>
+      <h2>💰 Commerce Stream</h2>
+      <ul>
+        <li>CA / CMA / CS</li>
+        <li>CPT / IPMAT → BBA + MBA</li>
+        <li>CUET (UG)</li>
+        <li>NPAT / SET / Christ Univ → BBA / B.Com</li>
+      </ul>
+      <h2>⚙️ Vocational & Skill-Based</h2>
+      <ul>
+        <li>Polytechnic / ITI</li>
+        <li>Paramedical</li>
+        <li>NCHMCT JEE → Hotel Management</li>
+        <li>Animation / Fashion / Multimedia</li>
+      </ul>
+      <h2>🎓 Instructor / General Exams</h2>
+      <ul>
+        <li>B.Ed / CTET / TET</li>
+        <li>UGC NET / JRF</li>
+        <li>UPSC / State PSC</li>
+      </ul>`;
+  }
+</script>
+</body>
+</html>
